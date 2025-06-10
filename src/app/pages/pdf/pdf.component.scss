@@ -1,0 +1,354 @@
+@import url(./../../../root.scss);
+$primary-color: #4a6cf7;
+$success-color: #4caf50;
+$danger-color: #f44336;
+$text-color: #333;
+$border-color: #ddd;
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.file-container {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  width: 80%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 9998;
+
+  .file-upload-wrapper {
+    position: relative;
+    height: 36px;
+    margin: 0 15px;
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 25px;
+      background: $primary-color;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      font-size: 14px;
+      white-space: nowrap;
+
+      &:hover {
+        background: darken($primary-color, 8%);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+    #fileInput {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      left: 0;
+      top: 0;
+      cursor: pointer;
+    }
+
+    #addfileInput {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      left: 0;
+      top: 0;
+      cursor: pointer;
+    }
+    .add-file-input{
+      background: $success-color;
+    }
+
+    #fileName {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      color: $text-color;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .button-group {
+    display: flex;
+    gap: 10px;
+    height: 36px;
+
+    .btn {
+      padding: 0 20px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+
+      &.btn-download {
+        background: $success-color;
+        color: white;
+
+        option{
+          cursor: pointer;
+        }
+        &:hover {
+          background: darken($success-color, 8%);
+          transform: translateY(-1px);
+        }
+      }
+
+      &.btn-clear {
+        background: $danger-color;
+        color: white;
+
+        &:hover {
+          background: darken($danger-color, 8%);
+          transform: translateY(-1px);
+        }
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+.pages-container {
+  margin-right: 200px;
+  padding-top: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: baseline;
+}
+
+::ng-deep .page-card {
+  margin: 3px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border: 1px solid var(--capivara-dark);
+  background-color: var(--capivara-sienna);
+  width: 25%;
+
+  &.excluded {
+    background-color: #ffe5e5;
+    border: 2px dashed $danger-color;
+    opacity: 0.6;
+
+    img {
+      filter: grayscale(100%) brightness(90%);
+    }
+  }
+}
+::ng-deep .page-pdf {
+  margin-top: 5px;
+  border-radius: 5px;
+  width: 95%;
+}
+
+::ng-deep .page-actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+
+  button {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  .btn-view {
+    background-color: #4a6cf7;
+    color: white;
+
+    &:hover {
+      background-color: darken(#4a6cf7, 8%);
+    }
+  }
+
+  .btn-delete {
+    background-color: #f44336;
+    color: white;
+
+    &:hover {
+      background-color: darken(#f44336, 10%);
+    }
+  }
+
+  .btn-undo {
+    background-color: #ff9800;
+    color: white;
+
+    &:hover {
+      background-color: darken(#ff9800, 10%);
+    }
+  }
+}
+
+.options {
+  margin-top: 60px;
+   position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;          // altura total da tela
+  width: 200px;           // largura do painel (ajustável)
+  background-color: var(--capivara-sienna); // cor de fundo
+  border-left: 1px solid var(--capivara-dark); // borda lateral
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 9999;          // garante que fique por cima dos outros elementos
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1); // sombra lateral
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------- Send PDF Modal Initial -------------------------------------
+
+/* From Uiverse.io by Ma7moud344 */ 
+.container-file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #6dd5ed, #2193b0);
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.folder {
+  position: relative;
+  animation: float 2.5s infinite ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+.folder:hover {
+  transform: scale(1.05);
+}
+
+.folder .top {
+  background: linear-gradient(135deg, #ff9a56, #ff6f56);
+  width: 80px;
+  height: 20px;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+}
+
+.folder .bottom {
+  background: linear-gradient(135deg, #ffe563, #ffc663);
+  width: 120px;
+  height: 80px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 0 10px 10px 10px;
+  position: relative;
+  top: -10px;
+}
+
+.custom-file-upload {
+  font-size: 1.1em;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 20px;
+  padding: 15px 25px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: inline-block;
+  width: 220px;
+}
+
+.custom-file-upload:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+
+// ------------------------------------- Send PDF Modal finish --------------------------------------

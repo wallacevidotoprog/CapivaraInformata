@@ -1,0 +1,118 @@
+<!-- <div class="container">
+  <div class="file-container">
+    @if(!addFile){
+    <div class="file-upload-wrapper">
+      <label for="fileInput" class="file-upload-label">
+        Escolher Arquivo
+      </label>
+      <input
+        value="Escolher Arquivo"
+        type="file"
+        id="fileInput"
+        #fileInput
+        (change)="onFileChange($event)"
+        accept="application/pdf"
+        multiple
+      />
+    </div>
+    } @else if (addFile) {
+    <div class="file-upload-wrapper">
+      <label for="fileInput" class="file-upload-label">
+        Adicionar mais Arquivos
+      </label>
+      <input
+        value="Escolher Arquivo"
+        type="file"
+        id="addfileInput"
+        #fileInput
+        (change)="onFileChange($event)"
+        accept="application/pdf"
+        multiple
+      />
+    </div>
+    }
+
+    <div class="button-group"> 
+
+      <select
+        name="save"
+        id="save"
+        class="btn btn-download"
+        (change)="onSelectChange($event)"
+      >
+        <option value="download">Baixa</option>
+        <option value="download-separately">Baixa Separado</option>
+      </select>
+      <button class="btn btn-clear" id="clearBtn" (click)="clearFile()">
+        Limpar
+      </button>
+    </div>
+  </div>
+  <div #pagesContainer class="pages-container"></div>
+</div> -->
+
+<!-- <div class="container">
+  <input #fileInput type="file" (change)="onFileChange($event)" accept="application/pdf" />
+
+  <div class="actions">
+    <button (click)="salvarNovoPDF()">⬇️ Baixar PDF</button>
+    <button (click)="clearFile()" >🗑️ Limpar</button>
+     [disabled]="!pdfDoc"
+  </div>
+  <div #pagesContainer class="pages-container"></div>
+<canvas #canvasVisualizacao></canvas>
+<div #pagesContainer class="pdf-pages-grid"></div> 
+<button (click)="mostrarPagina(1)">Mostrar Página 1</button>
+
+  <div class="modal" *ngIf="showModal" (click)="fecharModal()">
+    <canvas #modalCanvas></canvas>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="container-file-upload" *ngIf="!addFile">
+    <div class="folder">
+      <div class="top"></div>
+      <div class="bottom"></div>
+    </div>
+    <label class="custom-file-upload">
+      <input
+        class="title"
+        type="file"
+        id="fileInput"
+        (change)="onFileChange($event)"
+        accept="application/pdf"
+        multiple
+      />
+      Escolher Arquivo
+    </label>
+  </div>
+
+  <div class="pages-container" #pagesContainer [ngStyle]="{ 'margin-right': addFile ? '200px' : '0'}" *ngIf="!loading">
+    <div *ngFor="let page of pages" class="page-card">
+      <img [src]="page.canvasImg" alt="Preview da página" class="page-pdf" />
+      <div class="page-actions">
+        <button class="btn-view">👁️ Visualizar</button>
+        <button (click)="removerPagina(page.id)" class="btn-delete">
+          Excluir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="options" *ngIf="addFile " >
+    <select
+      name="save"
+      id="save"
+      class="btn btn-download"
+      (change)="onSelectChange($event)"
+    >
+      <option value="download">Baixar</option>
+      <option value="download-separately">Baixar Separadamente</option>
+    </select>
+    <button class="btn btn-clear" id="clearBtn" (click)="clearFile()">
+      Limpar
+    </button>
+  </div>
+</div>
+<app-loading-cap *ngIf="loading"/>
