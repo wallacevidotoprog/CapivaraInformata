@@ -1,0 +1,7 @@
+<div class="modal-backdrop" *ngIf="visible" (click)="fechar()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <img [src]="canvasImg" alt="Preview da página" class="page-pdf" />
+    <!-- <canvas #modalCanvas></canvas> -->
+    <button class="btn-close" (click)="fechar()">✖</button>
+  </div>
+</div>

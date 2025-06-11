@@ -12,4 +12,5 @@ export interface PdfPage {
   pdfDoc: PDFDocument;  // Documento PDF da página (pdf-lib)
   pageIndex: number;    // índice da página no documento original
   canvasImg?: string;   // preview em base64 da página renderizada
+  checked: boolean;
 }

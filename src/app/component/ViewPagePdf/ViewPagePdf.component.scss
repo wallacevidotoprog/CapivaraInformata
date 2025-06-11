@@ -1,0 +1,63 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99000;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease-in;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.3s ease-out;
+  overflow: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.btn-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ff5b5b;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  padding: 4px 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
