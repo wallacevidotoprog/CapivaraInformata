@@ -75,31 +75,33 @@
   }
 }
 
-
 .title {
-  padding-left: 40%;
-    display: inline-block;
-    font-family: monospace;
-    font-size: 24px;
-    font-weight: bold;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 2px solid black;
-    width: 0;
-    animation: typing 3s steps(22) forwards, blink 0.7s step-end infinite;
-  }
+  position: absolute;
+  left: 85px;
+  top: 15px;
+  display: inline-block;
+  font-family: monospace;
+  font-size: 24px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid black;
+  width: 0;
+  animation: typing 3s steps(22) forwards, blink 0.7s step-end infinite;
+}
 
 @keyframes typing {
   from {
     width: 0;
   }
   to {
-    width: 18ch; 
+    width: 18ch;
   }
 }
 
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     border-color: transparent;
   }
   50% {

@@ -1,6 +1,6 @@
 # 🦫 Capivara Informata - Manipulador de PDF
 
-![Logo](./src/assets/favicon.ico)
+![Logo](./src/assets/logo-cap.png)
 
 Bem-vindo ao **Capivara Informata**, um projeto web desenvolvido em **Angular** para manipulação inteligente de arquivos **PDF**. Com ele, você pode visualizar páginas do PDF como imagens, selecionar quais deseja manter ou excluir, reorganizar via drag-and-drop, e baixar o arquivo completo ou páginas separadas com facilidade.
 
@@ -26,7 +26,7 @@ Bem-vindo ao **Capivara Informata**, um projeto web desenvolvido em **Angular** 
 ![Screenshot](./docs/desk.PNG)
 ## 🧪 Tecnologias Utilizadas
 
-- [Angular 16+](https://angular.io/)
+- [Angular 19](https://angular.io/)
 - [pdf-lib](https://github.com/Hopding/pdf-lib)
 - [pdfjs-dist (PDF.js)](https://github.com/mozilla/pdf.js)
 - [Angular CDK DragDrop](https://material.angular.io/cdk/drag-drop/overview)
