@@ -2,15 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { PDFDocument } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
+// import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 // @ts-ignore
-import pdfWorker from 'pdfjs-dist/build/pdf.worker.min?url';
+// import pdfWorker from 'pdfjs-dist/build/pdf.worker.min?url';
 import { PdfPage } from '../../../module/model/check-select.model';
 import { LoadingCapComponent } from '../../component/loading-cap/loading-cap.component';
 import { ViewPagePdfComponent } from '../../component/ViewPagePdf/ViewPagePdf.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+// pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
+
+const pdfWorker = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url);
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker.toString();
 
 @Component({
   selector: 'page-pdf',

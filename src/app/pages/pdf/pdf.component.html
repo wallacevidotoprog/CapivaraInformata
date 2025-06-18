@@ -135,7 +135,7 @@
       <!-- <input class="file" name="text" type="file" /> -->
     </button>
 
-    <button class="container-btn-file" (click)="onSelectChange('download')">
+    <button class="container-btn-file" (click)="downloadFullPDF()">
       <svg
         class="w-6 h-6 text-gray-800 dark:text-white"
         aria-hidden="true"
@@ -158,7 +158,7 @@
 
     <button
       class="container-btn-file"
-      (click)="onSelectChange('download-separately')"
+      (click)="downloadSeparatePDF()"
     >
       <svg
         class="w-6 h-6 text-gray-800 dark:text-white"
