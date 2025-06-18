@@ -66,6 +66,7 @@ export class PagePdfComponent {
           canvasImg,
           checked: true,
         });
+
       }
     }
     this.loading = false;
@@ -144,7 +145,6 @@ export class PagePdfComponent {
     const page = this.pages.find((p) => p.id === id);
     this.canvasImg = page?.canvasImg || '';
     this.showModal = true;
-    console.log(id, ' ||', this.canvasImg);
   }
 
   closeModalPagePdf() {
