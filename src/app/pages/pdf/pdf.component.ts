@@ -14,7 +14,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 // pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 const pdfWorker = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url);
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker.toString();
+// pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker.toString();
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdfjs/pdf.worker.min.mjs';
 
 @Component({
   selector: 'page-pdf',
