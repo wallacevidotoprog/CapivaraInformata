@@ -24,14 +24,23 @@
     cdkDropList
     (cdkDropListDropped)="drop($event)"
     [cdkDropListSortingDisabled]="false"
+    cdkDropListOrientation="mixed"
   >
     <div
       *ngFor="let page of pages"
       class="page-card"
       cdkDrag
+      [cdkDragStartDelay]="50"
       [ngClass]="{ excluded: !page.checked }"
     >
-      <!-- <div class="drag-handle" cdkDragHandle>↕️</div> -->
+      <div class="handle" cdkDragHandle>
+        <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
+          ></path>
+          <path d="M0 0h24v24H0z" fill="none"></path>
+        </svg>
+      </div>
       <img [src]="page.canvasImg" alt="Preview da página" class="page-pdf" />
       <ng-template cdkDragPreview>
         <img [src]="page.canvasImg" class="page-pdf preview-img" />
@@ -39,13 +48,11 @@
       <div class="page-actions">
         <button class="btn-view" (click)="viewPdf(page.id)">
           <svg
-            class="w-6 h-6 text-gray-800 dark:text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
             fill="none"
-            viewBox="0 0 24 24"
           >
             <path
               stroke="currentColor"
@@ -63,13 +70,11 @@
         >
           @if ( page.checked ) {
           <svg
-            class="w-6 h-6 text-gray-800 dark:text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
             fill="none"
-            viewBox="0 0 24 24"
           >
             <path
               stroke="currentColor"
@@ -81,13 +86,11 @@
 
           } @else {
           <svg
-            class="w-6 h-6 text-gray-800 dark:text-white"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
             fill="currentColor"
-            viewBox="0 0 24 24"
           >
             <path
               fill-rule="evenodd"
@@ -105,13 +108,11 @@
   <div class="options" *ngIf="addFile" [ngClass]="{ show: !loading }">
     <button class="container-btn-file">
       <svg
-        class="w-6 h-6 text-gray-800 dark:text-white"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
         fill="none"
-        viewBox="0 0 24 24"
       >
         <path
           stroke="currentColor"
@@ -137,13 +138,11 @@
 
     <button class="container-btn-file" (click)="downloadFullPDF()">
       <svg
-        class="w-6 h-6 text-gray-800 dark:text-white"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
         fill="none"
-        viewBox="0 0 24 24"
       >
         <path
           stroke="currentColor"
@@ -156,27 +155,22 @@
       <label for="">Baixar PDF</label>
     </button>
 
-    <button
-      class="container-btn-file"
-      (click)="downloadSeparatePDF()"
-    >
+    <button class="container-btn-file" (click)="downloadSeparatePDF()">
       <svg
-        class="w-6 h-6 text-gray-800 dark:text-white"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
         fill="none"
-        viewBox="0 0 24 24"
       >
         <path
           stroke="currentColor"
-          stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"
+          d="M9 8v3a1 1 0 0 1-1 1H5m11 4h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v1m4 3v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7.13a1 1 0 0 1 .24-.65L7.7 8.35A1 1 0 0 1 8.46 8H13a1 1 0 0 1 1 1Z"
         />
       </svg>
+
       <label for="">Baixar Separadamente</label>
     </button>
 
@@ -207,29 +201,7 @@
     </button>
   </div>
 
-  <!-- <div class="options" *ngIf="addFile" [ngClass]="{ show: !loading }">
-    <select
-      name="save"
-      id="save"
-      class="btn btn-download"
-      (change)="onSelectChange($event)"
-    >
-      <option value="download">Baixar</option>
-      <option value="download-separately">Baixar Separadamente</option>
-    </select>
-    <input
-      class="title"
-      type="file"
-      id="fileInput"
-      (change)="onFileChange($event)"
-      accept="application/pdf"
-      multiple
-    />
-    <button class="btn btn-clear" id="clearBtn" (click)="clearFile()">
-      Limpar
-    </button>
-  </div> -->
-</div>
+  </div>
 <app-loading-cap *ngIf="loading" />
 <view-page-pdf
   [visible]="showModal"
