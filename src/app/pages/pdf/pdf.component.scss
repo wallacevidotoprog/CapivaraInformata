@@ -256,37 +256,8 @@ $border-color: #ddd;
     }
   }
 }
-
-@media screen and (max-width: 735px) {
-  .page-actions {
-    .btn-view {
-      width: 35%;
-      font-size: 5px;
-    }
-    .btn-delete {
-      width: 35%;
-      font-size: 5px;
-    }
-    .btn-undo {
-      width: 35%;
-      font-size: 5px;
-    }
-  }
-  .options {
-    .container-btn-file {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-  .handle {
-    svg {
-      width: 20px;
-    }
-  }
-}
-
-@media screen and (max-width: 630px) {
+  
+@media screen and (max-width: 750px) {
   .page-actions {
     gap: 5px;
     button {
@@ -315,6 +286,7 @@ $border-color: #ddd;
     }
     label {
       // display: none;
+      flex: 1;  
       font-size: 10px;
     }
   }
