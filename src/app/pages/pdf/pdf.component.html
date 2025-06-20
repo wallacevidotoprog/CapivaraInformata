@@ -22,12 +22,12 @@
     #pagesContainer
     *ngIf="!loading"
     cdkDropList
-    (cdkDropListDropped)="drop($event)"
+    (cdkDropListDropped)="this.pdfEdit.dragDrop($event)"
     [cdkDropListSortingDisabled]="false"
     cdkDropListOrientation="mixed"
   >
     <div
-      *ngFor="let page of pages"
+      *ngFor="let page of pdfEdit.getPages()"
       class="page-card"
       cdkDrag
       [cdkDragStartDelay]="50"
@@ -64,7 +64,7 @@
           </svg>
         </button>
         <button
-          (click)="remove_undo(page.id)"
+          (click)="pdfEdit.pdfChangeAction(page.id)"
           [class.btn-undo]="page.checked"
           [class.btn-delete]="!page.checked"
         >
@@ -136,7 +136,7 @@
       <!-- <input class="file" name="text" type="file" /> -->
     </button>
 
-    <button class="container-btn-file" (click)="downloadFullPDF()">
+    <button class="container-btn-file" (click)="pdfEdit.downloadFullPDF()">
       <svg
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +155,7 @@
       <label for="">Baixar PDF</label>
     </button>
 
-    <button class="container-btn-file" (click)="downloadSeparatePDF()">
+    <button class="container-btn-file" (click)="pdfEdit.downloadSeparatePDF()">
       <svg
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
@@ -200,8 +200,7 @@
       <label for="">Limpar</label>
     </button>
   </div>
-
-  </div>
+</div>
 <app-loading-cap *ngIf="loading" />
 <view-page-pdf
   [visible]="showModal"
