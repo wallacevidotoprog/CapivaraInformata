@@ -24,6 +24,7 @@ Bem-vindo ao **Capivara Informata**, um projeto web desenvolvido em **Angular** 
 ##  📷  Imagens
 
 ![Screenshot](./docs/desk.PNG)
+![Screenshot](./docs/mob.PNG)
 ## 🧪 Tecnologias Utilizadas
 
 - [Angular 19](https://angular.io/)
