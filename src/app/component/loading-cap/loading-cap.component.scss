@@ -1,24 +1,134 @@
-@import url(./../../../root.scss);
 #loading {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;    /* largura total da viewport */
-  height: 100vh;   /* altura total da viewport */
-  background: var(--capivara-gradient);
-  z-index: 9999;   /* maior que o fixed-top do bootstrap */
+  width: 100vw;
+  height: 100vh;
+  background: var(--capivara-dark);
+  background-image:
+    radial-gradient(ellipse at 30% 40%, rgba(139, 69, 19, 0.2) 0px, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
-  color: #333;
-  opacity: .9;
+  gap: 1.5rem;
+  overflow: hidden;
 }
 
+// Floating particles
+.loading-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
 
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.08;
+  animation: particle-float 10s ease-in-out infinite;
 
-/* From Uiverse.io by Novaxlo */ 
+  &.p1 {
+    width: 100px;
+    height: 100px;
+    background: var(--capivara-accent);
+    top: 10%;
+    left: 15%;
+    animation-delay: 0s;
+    animation-duration: 12s;
+  }
+  &.p2 {
+    width: 60px;
+    height: 60px;
+    background: var(--capivara-saddle);
+    top: 70%;
+    right: 20%;
+    animation-delay: 2s;
+    animation-duration: 10s;
+  }
+  &.p3 {
+    width: 80px;
+    height: 80px;
+    background: var(--capivara-sienna);
+    bottom: 20%;
+    left: 60%;
+    animation-delay: 4s;
+    animation-duration: 14s;
+  }
+  &.p4 {
+    width: 40px;
+    height: 40px;
+    background: var(--capivara-accent);
+    top: 40%;
+    right: 10%;
+    animation-delay: 1s;
+    animation-duration: 8s;
+  }
+  &.p5 {
+    width: 50px;
+    height: 50px;
+    background: var(--capivara-light);
+    top: 60%;
+    left: 10%;
+    animation-delay: 3s;
+    animation-duration: 11s;
+  }
+}
+
+@keyframes particle-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(30px, -20px) scale(1.1);
+  }
+  50% {
+    transform: translate(-10px, -40px) scale(0.9);
+  }
+  75% {
+    transform: translate(20px, 10px) scale(1.05);
+  }
+}
+
+// Loading message
+.loading-message {
+  text-align: center;
+  max-width: 400px;
+  padding: 0 1.5rem;
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+
+  .message-text {
+    font-size: var(--font-base);
+    font-weight: 500;
+    color: var(--capivara-light);
+    line-height: 1.5;
+    display: inline-block;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: 0.875rem 1.5rem;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ================================================
+// Capybara CSS Art (preserved from Uiverse.io by Novaxlo)
+// ================================================
 .capybaraloader {
   width: 14em;
   height: 10em;
@@ -26,14 +136,16 @@
   z-index: 1;
   --color: rgb(204, 125, 45);
   --color2: rgb(83, 56, 28);
-  transform: scale(0.75);
+  transform: scale(0.85);
 }
+
 .capybara {
   width: 100%;
   height: 7.5em;
   position: relative;
   z-index: 1;
 }
+
 .loader {
   width: 100%;
   height: 2.5em;
@@ -41,6 +153,7 @@
   z-index: 1;
   overflow: hidden;
 }
+
 .capy {
   width: 85%;
   height: 100%;
@@ -50,6 +163,7 @@
   z-index: 1;
   animation: movebody 1s linear infinite;
 }
+
 .capyhead {
   width: 7.5em;
   height: 7em;
@@ -62,6 +176,7 @@
   box-shadow: -1em 0em var(--color2);
   animation: movebody 1s linear infinite;
 }
+
 .capyear {
   width: 2em;
   height: 2em;
@@ -73,10 +188,12 @@
   overflow: hidden;
   z-index: 3;
 }
+
 .capyear:nth-child(2) {
   left: 5em;
   background: linear-gradient(25deg, var(--color), 90%, var(--color2));
 }
+
 .capyear2 {
   width: 100%;
   height: 1em;
@@ -87,6 +204,7 @@
   position: absolute;
   transform: rotate(-45deg);
 }
+
 .capymouth {
   width: 3.5em;
   height: 2em;
@@ -100,6 +218,7 @@
   align-items: center;
   padding: 0.5em;
 }
+
 .capylips {
   width: 0.25em;
   height: 0.75em;
@@ -107,9 +226,11 @@
   transform: rotate(-45deg);
   background-color: var(--color);
 }
+
 .capylips:nth-child(2) {
   transform: rotate(45deg);
 }
+
 .capyeye {
   width: 2em;
   height: 0.5em;
@@ -120,11 +241,13 @@
   border-radius: 5em;
   transform: rotate(45deg);
 }
+
 .capyeye:nth-child(4) {
   transform: rotate(-45deg);
   left: 5.5em;
   width: 1.75em;
 }
+
 .capyleg {
   width: 6em;
   height: 5em;
@@ -136,6 +259,7 @@
   border-radius: 2em;
   animation: movebody 1s linear infinite;
 }
+
 .capyleg2 {
   width: 1.75em;
   height: 3em;
@@ -148,6 +272,7 @@
   box-shadow: inset 0em -0.5em var(--color2);
   animation: moveleg 1s linear infinite;
 }
+
 .capyleg2:nth-child(3) {
   width: 1.25em;
   left: 0.5em;
@@ -156,39 +281,21 @@
 }
 
 @keyframes moveleg {
-  0% {
-    transform: rotate(-45deg) translateX(-5%);
-  }
-  50% {
-    transform: rotate(45deg) translateX(5%);
-  }
-  100% {
-    transform: rotate(-45deg) translateX(-5%);
-  }
+  0% { transform: rotate(-45deg) translateX(-5%); }
+  50% { transform: rotate(45deg) translateX(5%); }
+  100% { transform: rotate(-45deg) translateX(-5%); }
 }
 
 @keyframes moveleg2 {
-  0% {
-    transform: rotate(45deg);
-  }
-  50% {
-    transform: rotate(-45deg);
-  }
-  100% {
-    transform: rotate(45deg);
-  }
+  0% { transform: rotate(45deg); }
+  50% { transform: rotate(-45deg); }
+  100% { transform: rotate(45deg); }
 }
 
 @keyframes movebody {
-  0% {
-    transform: translateX(0%);
-  }
-  50% {
-    transform: translateX(2%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
+  0% { transform: translateX(0%); }
+  50% { transform: translateX(2%); }
+  100% { transform: translateX(0%); }
 }
 
 .loaderline {
@@ -203,12 +310,8 @@
     transform: translateX(0%);
     opacity: 0%;
   }
-  5% {
-    opacity: 100%;
-  }
-  95% {
-    opacity: 100%;
-  }
+  5% { opacity: 100%; }
+  95% { opacity: 100%; }
   100% {
     opacity: 0%;
     transform: translateX(-70%);

@@ -1,20 +1,32 @@
-<nav class="topbar">
-  <div>
-    <!-- <img src="images/logo-cap.png" alt="logo-cap" class="logo" /> -->
-     <img src="assets/images/logo-cap.png" alt="logo-cap" class="logo" />
-    <span class="title">Capivara Informata</span>
+<nav class="topbar" [class.menu-open]="isMenuOpen">
+  <div class="logo-section">
+    <div class="logo-wrapper">
+      <img src="assets/images/logo-cap.png" alt="Capivara Informata" class="logo" />
+      <div class="logo-glow"></div>
+    </div>
+    <div class="title-wrapper">
+      <span class="title">Capivara Informata</span>
+      <span class="subtitle">Editor de PDF</span>
+    </div>
   </div>
 
-  <div class="menu-toggle" (click)="toggleMenu()">
-    <span class="bar"></span>
-    <span class="bar"></span>
-    <span class="bar"></span>
-  </div>
+  <div class="nav-actions">
+    <ul class="menu" [class.active]="isMenuOpen">
+      <li>
+        <a routerLink="page-pdf" (click)="closeMenu()" routerLinkActive="active">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M9 12h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Editar PDF
+          <span class="nav-badge">🐾</span>
+        </a>
+      </li>
+    </ul>
 
-  <ul class="menu" [class.active]="isMenuOpen">
-    <!-- <li><a routerLink="page-pdf-convert" (click)="closeMenu()">Converter PDF</a></li> -->
-    <li>
-      <a routerLink="page-pdf" (click)="closeMenu()">Editar PDF</a>
-    </li>
-  </ul>
+    <button class="menu-toggle" [class.open]="isMenuOpen" (click)="toggleMenu()" aria-label="Abrir menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
 </nav>

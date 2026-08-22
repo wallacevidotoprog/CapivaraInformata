@@ -1,255 +1,164 @@
-<div class="container">
-  <div class="container-file-upload" *ngIf="!addFile">
-    <div class="folder">
-      <div class="top"></div>
-      <div class="bottom"></div>
-    </div>
-    <label class="custom-file-upload">
-      <input
-        class="title"
-        type="file"
-        id="fileInput"
-        (change)="onFileChange($event)"
-        accept="application/pdf"
-        multiple
-      />
-      Escolher Arquivo
-    </label>
-  </div>
+<div class="editor-layout">
+  <!-- Upload Area (Empty State) -->
+  @if (!addFile) {
+    <div class="upload-area">
+      <div class="upload-card">
+        <div class="upload-decoration">
+          <div class="floating-circle c1"></div>
+          <div class="floating-circle c2"></div>
+          <div class="floating-circle c3"></div>
+        </div>
 
-  <div
-    class="pages-container"
-    #pagesContainer
-    *ngIf="!loading"
-    cdkDropList
-    (cdkDropListDropped)="this.pdfEdit.dragDrop($event)"
-    [cdkDropListSortingDisabled]="false"
-    cdkDropListOrientation="mixed"
-  >
-    <div
-      *ngFor="let page of pdfEdit.getPages()"
-      class="page-card"
-      cdkDrag
-      [cdkDragStartDelay]="50"
-      [ngClass]="{ excluded: !page.checked }"
-    >
-      <div class="handle" cdkDragHandle>
-        <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
-          <path
-            d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
-          ></path>
-          <path d="M0 0h24v24H0z" fill="none"></path>
-        </svg>
-      </div>
-      <img [src]="page.canvasImg" alt="Preview da página" class="page-pdf" />
-      <ng-template cdkDragPreview>
-        <img [src]="page.canvasImg" class="page-pdf preview-img" />
-      </ng-template>
-      <div class="page-actions">
-        <button class="btn-view" (click)="viewPdf(page.id)">
-          <svg
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"
-            />
-          </svg>
-        </button>
-        <button
-          (click)="pdfEdit.pdfChangeAction(page.id)"
-          [class.btn-undo]="page.checked"
-          [class.btn-delete]="!page.checked"
-        >
-          @if ( page.checked ) {
-          <svg
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-width="2"
-              d="m6 6 12 12m3-6a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
+        <div class="upload-capivara">
+          <img src="assets/logo-cap.png" alt="Capivara Informata" class="capivara-logo" />
+        </div>
 
-          } @else {
-          <svg
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M9.484 6.743c.41-.368.443-1 .077-1.41a.99.99 0 0 0-1.405-.078L2.67 10.203l-.007.006A2.048 2.048 0 0 0 2 11.721a2.058 2.058 0 0 0 .662 1.51l5.584 5.09a.99.99 0 0 0 1.405-.07 1.003 1.003 0 0 0-.07-1.412l-5.577-5.082a.05.05 0 0 1 0-.072l5.48-4.942Zm6.543 9.199v-.42a4.168 4.168 0 0 1 2.715 2.415c.154.382.44.695.806.88a1.683 1.683 0 0 0 2.167-.571c.214-.322.312-.707.279-1.092V15.88c0-3.77-2.526-7.039-5.966-7.573V7.57a1.957 1.957 0 0 0-.994-1.838 1.931 1.931 0 0 0-2.153.184L7.8 10.164a.753.753 0 0 0-.012.011l-.011.01a2.098 2.098 0 0 0-.703 1.57 2.108 2.108 0 0 0 .726 1.59l5.08 4.25a1.933 1.933 0 0 0 2.929-.614c.167-.32.242-.68.218-1.04Z"
-              clip-rule="evenodd"
-            />
-          </svg>
+        <h2 class="upload-title">Joga o PDF aqui que a Capivara resolve! 🐾</h2>
+        <p class="upload-subtitle">Arraste seu arquivo ou clique no botão abaixo para começar a editar</p>
 
-          }
-        </button>
+        <div class="upload-actions">
+          <label class="btn-upload" id="uploadLabel">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M12 4v16m8-8H4" stroke-linecap="round"/>
+            </svg>
+            Escolher Arquivo
+            <input type="file" id="fileInput" (change)="onFileChange($event)" accept="application/pdf" multiple />
+          </label>
+        </div>
+
+        <div class="upload-formats">
+          <span class="format-tag">PDF</span>
+          <span class="format-separator">•</span>
+          <span class="format-info">Múltiplos arquivos suportados</span>
+        </div>
       </div>
     </div>
-  </div>
+  }
 
-  <div class="options" *ngIf="addFile" [ngClass]="{ show: !loading }">
-    <button class="container-btn-file">
-      <svg
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M18 9V4a1 1 0 0 0-1-1H8.914a1 1 0 0 0-.707.293L4.293 7.207A1 1 0 0 0 4 7.914V20a1 1 0 0 0 1 1h4M9 3v4a1 1 0 0 1-1 1H4m11 6v4m-2-2h4m3 0a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z"
-        />
-      </svg>
-      <label for=""> Adicionar Arquivo </label>
-      <input
-        class="title"
-        type="file"
-        id="fileInput"
-        (change)="onFileChange($event)"
-        accept="application/pdf"
-        multiple
-      />
-    </button>
+  <!-- Main Content Area -->
+  @if (addFile && !loading) {
+    <div class="main-content">
+      <div class="pages-grid" #pagesContainer cdkDropList (cdkDropListDropped)="pdfEdit.dragDrop($event)"
+        [cdkDropListSortingDisabled]="false" cdkDropListOrientation="mixed">
+        @for (page of pdfEdit.getPages(); track page.id; let i = $index) {
+          <div class="page-card" cdkDrag [cdkDragStartDelay]="50"
+            [class.excluded]="!page.checked"
+            [style.animation-delay]="(i * 50) + 'ms'">
 
-    <button class="container-btn-file" (click)="pdfEdit.downloadFullPDF()">
-      <svg
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"
-        />
-      </svg>
-      <label for="">Baixar PDF</label>
-    </button>
+            <div class="card-badge">{{ i + 1 }}</div>
 
-    <button class="container-btn-file" (click)="pdfEdit.downloadSeparatePDF()">
-      <svg
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 8v3a1 1 0 0 1-1 1H5m11 4h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v1m4 3v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7.13a1 1 0 0 1 .24-.65L7.7 8.35A1 1 0 0 1 8.46 8H13a1 1 0 0 1 1 1Z"
-        />
-      </svg>
-      <label for="">Baixar Separadamente</label>
-    </button>
+            <div class="preview-container" (click)="viewPdf(page.id)">
+              <img [src]="page.canvasImg" alt="Preview da página {{ i + 1 }}" class="page-preview" loading="lazy" />
+              <div class="quick-view-overlay">
+                <div class="view-icon">
+                  <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <span>Visualizar</span>
+                </div>
+              </div>
+            </div>
 
-    <button class="container-btn-file" (click)="pdfEdit.pdfToImage()">
-      <svg
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
-        />
-      </svg>
+            <div class="card-footer">
+              <div class="handle" cdkDragHandle title="Arrastar para reordenar">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7 7h2v2H7zm0 4h2v2H7zm0 4h2v2H7zm4-8h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2zm4-8h2v2h-2zm0 4h2v2h-2zm0 4h2v2h-2z" />
+                </svg>
+              </div>
 
-      <label for="">Converter em Imagens</label>
-    </button>
+              <button class="action-btn" [class.btn-restore]="!page.checked" [class.btn-remove]="page.checked"
+                (click)="pdfEdit.pdfChangeAction(page.id)" [title]="page.checked ? 'Excluir página' : 'Restaurar página'">
+                @if (page.checked) {
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                } @else {
+                  <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                }
+              </button>
+            </div>
 
-    <button class="container-btn-file" (click)="pdfEdit.pdfToXlsx()">
-      <svg
-        height="24"
-        width="24"
-        version="1.1"
-        id="Capa_1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 0 26 26"
-        xml:space="preserve"
-      >
-        <g>
-          <path
-            style="fill: #ffffff"
-            d="M25.162,3H16v2.984h3.031v2.031H16V10h3v2h-3v2h3v2h-3v2h3v2h-3v3h9.162
-		C25.623,23,26,22.609,26,22.13V3.87C26,3.391,25.623,3,25.162,3z M24,20h-4v-2h4V20z M24,16h-4v-2h4V16z M24,12h-4v-2h4V12z M24,8
-		h-4V6h4V8z"
-          />
-          <path
-            style="fill: #ffffff"
-            d="M0,2.889v20.223L15,26V0L0,2.889z M9.488,18.08l-1.745-3.299c-0.066-0.123-0.134-0.349-0.205-0.678
-		H7.511C7.478,14.258,7.4,14.494,7.277,14.81l-1.751,3.27H2.807l3.228-5.064L3.082,7.951h2.776l1.448,3.037
-		c0.113,0.24,0.214,0.525,0.304,0.854h0.028c0.057-0.198,0.163-0.492,0.318-0.883l1.61-3.009h2.542l-3.037,5.022l3.122,5.107
-		L9.488,18.08L9.488,18.08z"
-          />
-        </g>
-      </svg>
+            <ng-template cdkDragPreview>
+              <div class="drag-preview-card">
+                <img [src]="page.canvasImg" class="drag-preview-img" />
+              </div>
+            </ng-template>
+          </div>
+        }
+      </div>
+    </div>
 
-      <label for="">Converter em Excel (beta)</label>
-    </button>
+    <!-- Floating Sidebar -->
+    <aside class="sidebar-floating">
+      <div class="sidebar-inner">
+        <div class="sidebar-title">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" stroke-linecap="round"/>
+          </svg>
+          Ações
+        </div>
 
-    <button
-      class="btn-clear container-btn-file"
-      (click)="clearFile()"
-      id="clearBtn"
-    >
-      <svg
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 5v14m-6-8h6m-6 4h6m4.506-1.494L15.012 12m0 0 1.506-1.506M15.012 12l1.506 1.506M15.012 12l-1.506-1.506M20 19H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1Z"
-        />
-      </svg>
+        <div class="sidebar-actions-list">
+          <div class="action-row">
+            <label class="sidebar-btn btn-secondary" title="Adicionar mais PDFs">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 4v16m8-8H4" stroke-linecap="round"/>
+              </svg>
+              Adicionar
+              <input type="file" (change)="onFileChange($event)" accept="application/pdf" multiple />
+            </label>
 
-      <label for="">Limpar</label>
-    </button>
-  </div>
+            <button class="sidebar-btn btn-danger" (click)="clearFile()" title="Limpar todos os arquivos">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round"/>
+              </svg>
+              Limpar
+            </button>
+          </div>
+
+          <div class="sidebar-divider"></div>
+
+          <button class="sidebar-btn btn-primary" (click)="pdfEdit.downloadFullPDF()" title="Baixar como PDF único">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Baixar PDF
+          </button>
+
+          <button class="sidebar-btn btn-glass" (click)="pdfEdit.downloadSeparatePDF()" title="Separar em páginas individuais">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Separar
+          </button>
+
+          <div class="sidebar-divider"></div>
+
+          <button class="sidebar-btn btn-glass" (click)="pdfEdit.pdfToImage()" title="Converter para imagens PNG">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Imagens
+          </button>
+
+          <button class="sidebar-btn btn-glass" (click)="pdfEdit.pdfToXlsx()" title="Converter texto para Excel">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Excel
+            <span class="beta-tag">β</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+  }
 </div>
-<app-loading-cap *ngIf="loading" />
-<view-page-pdf
-  [visible]="showModal"
-  [canvasImg]="canvasImg"
-  (close)="closeModalPagePdf()"
-/>
+
+@if (loading) {
+  <app-loading-cap />
+}
+
+<view-page-pdf [visible]="showModal" [canvasImg]="canvasImg" (close)="closeModalPagePdf()" />

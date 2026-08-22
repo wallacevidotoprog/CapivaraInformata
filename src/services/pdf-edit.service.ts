@@ -5,11 +5,15 @@ import { PDFDocument } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
 import * as XLSX from 'xlsx';
 import { PdfPage } from '../module/model/check-select.model';
-const pdfWorker = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url
-);
+
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdfjs/pdf.worker.min.mjs';
+
+// Preview scale: 1.5 is sufficient for thumbnails (vs. 5 which was ~90% more memory)
+const PREVIEW_SCALE = 1.5;
+// Higher scale for export/download quality
+const EXPORT_SCALE = 3;
+// Batch size for processing pages (prevents UI freeze)
+const BATCH_SIZE = 5;
 
 export class PdfEdit {
   constructor() {
@@ -35,24 +39,30 @@ export class PdfEdit {
         const pdfDoc = await PDFDocument.load(arrayBuffer);
 
         const pdfjsDoc = await pdfjsLib.getDocument({
-          data: arrayBuffer,
+          data: arrayBuffer.slice(0), // Use a copy to avoid detached buffer issues
         }).promise;
 
+        // Process pages in batches
         for (let pageNum = 1; pageNum <= pdfjsDoc.numPages; pageNum++) {
           const page = await pdfjsDoc.getPage(pageNum);
-          const viewport = page.getViewport({ scale: 5 });
+          const viewport = page.getViewport({ scale: PREVIEW_SCALE });
+
           const canvas = document.createElement('canvas');
           const context = canvas.getContext('2d')!;
           canvas.width = viewport.width;
           canvas.height = viewport.height;
 
-          const renderContext = {
+          await page.render({
             canvasContext: context,
             viewport: viewport,
-          };
-          await page.render(renderContext).promise;
+          }).promise;
 
-          const canvasImg = canvas.toDataURL();
+          // Use WebP with quality compression for smaller base64 strings
+          const canvasImg = canvas.toDataURL('image/webp', 0.82);
+
+          // Clean up canvas to free memory
+          canvas.width = 0;
+          canvas.height = 0;
 
           this.pages.push({
             id: `${file.name}-page-${pageNum}-${Date.now()}`,
@@ -61,6 +71,11 @@ export class PdfEdit {
             canvasImg,
             checked: true,
           });
+
+          // Yield to the main thread every BATCH_SIZE pages
+          if (pageNum % BATCH_SIZE === 0) {
+            await new Promise(resolve => setTimeout(resolve, 0));
+          }
         }
       }
       return this.pages;
@@ -119,7 +134,12 @@ export class PdfEdit {
     const zipBlob = await zip.generateAsync({ type: 'blob' });
     saveAs(zipBlob, 'paginas-separadas.zip');
   }
+
   public clearFile() {
+    // Clear image data to free memory
+    for (const page of this.pages) {
+      page.canvasImg = '';
+    }
     this.pages = [];
   }
 
@@ -129,7 +149,9 @@ export class PdfEdit {
 
   public pdfChangeAction(id: string) {
     const index = this.pages.findIndex((page) => page.id === id);
-    this.pages[index].checked = !this.pages[index].checked;
+    if (index !== -1) {
+      this.pages[index].checked = !this.pages[index].checked;
+    }
   }
 
   public async pdfToImage() {
@@ -139,9 +161,32 @@ export class PdfEdit {
     let index: number = 0;
     for (const page of this.pages) {
       if (page.checked) {
-        const base64Data = page.canvasImg.split(',')[1];
+        // Re-render at higher quality for export
+        const pdfBytes = await page.pdfDoc.save();
+        const pdfjsDoc = await pdfjsLib.getDocument({ data: pdfBytes }).promise;
+        const pdfjsPage = await pdfjsDoc.getPage(page.pageIndex + 1);
+        const viewport = pdfjsPage.getViewport({ scale: EXPORT_SCALE });
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d')!;
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        await pdfjsPage.render({
+          canvasContext: context,
+          viewport: viewport,
+        }).promise;
+
+        // Export as PNG for lossless quality
+        const dataUrl = canvas.toDataURL('image/png');
+        const base64Data = dataUrl.split(',')[1];
+
+        // Cleanup
+        canvas.width = 0;
+        canvas.height = 0;
+
         imgFolder!.file(
-          `${index} - capivara-pdf--pagina- ${page.id.substring(
+          `${index} - capivara-pdf--pagina-${page.id.substring(
             0,
             page.id.indexOf('.pdf')
           )}.png`,
@@ -149,6 +194,11 @@ export class PdfEdit {
           { base64: true }
         );
         index++;
+
+        // Yield every batch
+        if (index % BATCH_SIZE === 0) {
+          await new Promise(resolve => setTimeout(resolve, 0));
+        }
       }
     }
 
@@ -179,6 +229,7 @@ export class PdfEdit {
 
     return rows;
   }
+
   public exportToExcel(data: string[][]): void {
     const worksheet = XLSX.utils.aoa_to_sheet(data);
     const workbook = XLSX.utils.book_new();

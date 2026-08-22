@@ -1,10 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import url(root.scss);
 
-*{
-    margin: 0;
-    padding: 0 ;    
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body{
-    background-color: var(--capivara-saddle);
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--capivara-dark);
+  background-image:
+    radial-gradient(ellipse at 0% 0%, rgba(139, 69, 19, 0.18) 0px, transparent 55%),
+    radial-gradient(ellipse at 100% 0%, rgba(245, 158, 11, 0.06) 0px, transparent 45%),
+    radial-gradient(ellipse at 50% 100%, rgba(224, 202, 175, 0.08) 0px, transparent 55%),
+    radial-gradient(ellipse at 80% 50%, rgba(232, 93, 4, 0.05) 0px, transparent 40%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--capivara-white);
+  overflow-x: hidden;
+}
+
+// Animated background aurora
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.06) 0%, transparent 40%);
+  animation: aurora 20s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+@keyframes aurora {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(2%, -1%) rotate(1deg); }
+  66% { transform: translate(-1%, 2%) rotate(-1deg); }
+  100% { transform: translate(1%, -2%) rotate(0.5deg); }
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 15, 6, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--capivara-saddle);
+  border-radius: var(--radius-full);
+  border: 2px solid transparent;
+  background-clip: content-box;
+
+  &:hover {
+    background: var(--capivara-accent);
+    background-clip: content-box;
+  }
+}
+
+// Firefox scrollbar
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--capivara-saddle) rgba(26, 15, 6, 0.5);
+}
+
+// Selection
+::selection {
+  background: rgba(245, 158, 11, 0.3);
+  color: var(--capivara-white);
+}
+
+.page-content {
+  padding-top: 100px;
+  padding-inline: 1.5rem;
+  max-width: 1500px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+// Utility animation classes
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.2); }
+  50% { box-shadow: 0 0 20px 4px rgba(245, 158, 11, 0.15); }
+}
+
+// File input hidden globally
+input[type="file"] {
+  display: none;
 }

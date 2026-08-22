@@ -1,60 +1,59 @@
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import * as pdfjsLib from 'pdfjs-dist';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { PdfEdit } from '../../../services/pdf-edit.service';
 import { LoadingCapComponent } from '../../component/loading-cap/loading-cap.component';
 import { ViewPagePdfComponent } from '../../component/ViewPagePdf/ViewPagePdf.component';
 
-const pdfWorker = new URL(
-     'pdfjs-dist/build/pdf.worker.min.mjs',
-     import.meta.url
-);
-pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdfjs/pdf.worker.min.mjs';
-
 @Component({
-     selector: 'page-pdf',
-     standalone: true,
-     templateUrl: './pdf.component.html',
-     styleUrls: ['./pdf.component.scss'],
-     imports: [
-          CommonModule,
-          LoadingCapComponent,
-          ViewPagePdfComponent,
-          DragDropModule,
-     ],
+  selector: 'page-pdf',
+  standalone: true,
+  templateUrl: './pdf.component.html',
+  styleUrls: ['./pdf.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    LoadingCapComponent,
+    ViewPagePdfComponent,
+    DragDropModule,
+  ],
 })
 export class PagePdfComponent {
-     protected pdfEdit: PdfEdit = new PdfEdit();
+  protected pdfEdit: PdfEdit = new PdfEdit();
 
-     addFile = false;
-     loading = false;
-     showModal = false;
-     canvasImg: string = '';
+  addFile = false;
+  loading = false;
+  showModal = false;
+  canvasImg: string = '';
 
-     async onFileChange(event: any) {
-          this.addFile = true;
-          this.loading = true;
+  constructor(private cdr: ChangeDetectorRef) {}
 
-          await this.pdfEdit.onFileChange(event);
+  async onFileChange(event: any) {
+    this.addFile = true;
+    this.loading = true;
+    this.cdr.markForCheck();
 
-          this.loading = false;
-     }
+    await this.pdfEdit.onFileChange(event);
 
-     clearFile() {
-          this.pdfEdit.clearFile();
-          this.addFile = false;
-          this.showModal = false;
-     }
+    this.loading = false;
+    this.cdr.markForCheck();
+  }
 
-     viewPdf(id: string) {
-          const page = this.pdfEdit.getPages().find((p) => p.id === id);
-          this.canvasImg = page?.canvasImg || '';
-          this.showModal = true;
-     }
+  clearFile() {
+    this.pdfEdit.clearFile();
+    this.addFile = false;
+    this.showModal = false;
+    this.cdr.markForCheck();
+  }
 
-     closeModalPagePdf() {
-          this.canvasImg = '';
-          this.showModal = false;
-     }
+  viewPdf(id: string) {
+    const page = this.pdfEdit.getPages().find((p) => p.id === id);
+    this.canvasImg = page?.canvasImg || '';
+    this.showModal = true;
+    this.cdr.markForCheck();
+  }
+
+  closeModalPagePdf() {
+    this.canvasImg = '';
+    this.showModal = false;
+    this.cdr.markForCheck();
+  }
 }
